@@ -1,11 +1,11 @@
 var getApiResponse = require('./getApiResponse')
 
 commentThreads = (params, callback) => {
-    this.part = "snippet,replies"
+    global.part = "snippet,replies"
     getApiResponse("commentThreads", {
-        part: this.part,
+        part: global.part,
         videoId: params.videoId,
-        key: this.key
+        key: global.key
     }, callback)
 }
 

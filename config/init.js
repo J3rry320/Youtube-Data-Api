@@ -1,9 +1,9 @@
 module.exports = function (params) {
-    this.key = params.APIKey;
-    this.part = params.part;
-    this.type = params.type;
-    this.q = params.q;
-    this.maxResults = params.maxResults;
-    this.id = params.id;
-    this.regionCode = params.regionCode;
+    global.key = params.APIKey;
+    global.part = params.part;
+    global.type = params.type;
+    global.q = params.q;
+    global.maxResults = params.maxResults;
+    global.id = params.id;
+    global.regionCode = params.regionCode;
 }

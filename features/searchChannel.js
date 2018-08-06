@@ -3,16 +3,16 @@ var searchVideo = require('./searchVideo')
 
 
 searchChannel = (params, callback) => {
-    this.part = 'snippet';
+    global.part = 'snippet';
     //WIll be improved further
     /* if (params) {
-        this.id = params.id;
+        global.id = params.id;
 
     }
-    this.getApiRespone("channels", {
-        id: this.id,
-        part: this.part,
-        key: this.key
+    global.getApiRespone("channels", {
+        id: global.id,
+        part: global.part,
+        key: global.key
      }, callback)*/
     searchVideo({
         params
@@ -22,8 +22,8 @@ searchChannel = (params, callback) => {
             var channelId = element.snippet.channelId;
             getApiResponse("channels", {
                 id: channelId,
-                part: this.part,
-                key: this.key
+                part: global.part,
+                key: global.key
             }, response => {
                 if (callback) callback(response.data.items)
 

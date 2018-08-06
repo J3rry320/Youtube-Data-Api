@@ -1,14 +1,14 @@
 var getApiResponse = require('./getApiResponse')
 
 searchVideoCategories = (params, callback) => {
-    this.part = "snippet"
+    global.part = "snippet"
     if (params) {
-        this.regionCode = params.regionCode;
+        global.regionCode = params.regionCode;
     }
     getApiResponse("videoCategories", {
-        part: this.part,
-        regionCode: this.regionCode,
-        key: this.key
+        part: global.part,
+        regionCode: global.regionCode,
+        key: global.key
 
     }, callback)
 }

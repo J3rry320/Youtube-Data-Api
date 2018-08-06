@@ -2,7 +2,7 @@ const rootUrl = "https://www.googleapis.com/youtube/v3/";
 var axios = require("axios");
 
 getApiResponse = (kind, params, callback) => {
-    if (!this.key) {
+    if (!global.key) {
         throw new Error("No Key Provided! Provide an API key to make the function work")
     }
     if (params === undefined) {

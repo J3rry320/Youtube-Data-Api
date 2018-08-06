@@ -2,11 +2,11 @@ var getApiResponse = require('./getApiResponse')
 
 
 searchVideo = (params, callback) => {
-    this.part = "snippet";
-    this.type = "video";
+    global.part = "snippet";
+    global.type = "video";
     if (params) {
-        this.q = params.query;
-        this.maxResults = params.maxResults;
+        global.q = params.query;
+        global.maxResults = params.maxResults;
     }
     if (params === undefined) {
         throw new Error("Pass the parameters to the query method");
@@ -14,12 +14,12 @@ searchVideo = (params, callback) => {
 
     getApiResponse("search", {
         part: 'snippet',
-        key: this.key,
-        q: this.q,
-        type: this.type,
+        key: global.key,
+        q: global.q,
+        type: global.type,
 
-        maxResults: this.maxResults
+        maxResults: global.maxResults
     }, callback)
 }
 
-module.export = searchVideo
+module.exports = searchVideo
