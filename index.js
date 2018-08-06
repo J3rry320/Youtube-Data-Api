@@ -39,9 +39,13 @@ queryFunction.prototype = {
         if (params) {
             this.q = params.query;
             this.maxResults = params.maxResults;
+            console.log(params)
         }
         if (params === undefined) {
             throw new Error("Pass the parameters to the query method");
+        }
+        if(params){
+            console.log(params)
         }
 
         this.getApiRespone("search", {
@@ -86,11 +90,13 @@ queryFunction.prototype = {
              key: this.key
          }, callback)*/
         this.searchVideo({
-            params
+            query: params.query,
+            maxResults: params.maxResults
         }, response => {
             var items = response.data.items;
             items.forEach(element => {
                 var channelId = element.snippet.channelId;
+                console.log(channelId)
                 this.getApiRespone("channels", {
                     id: channelId,
                     part: this.part,
@@ -111,14 +117,14 @@ var newSerach = new queryFunction({
 });
 
 
-/*newSerach.searchChannel({
+newSerach.searchChannel({
     query: "BlasterJaxx",
-    maxResults: 1
+    maxResults: 10
 }, response => {
     console.log(response)
 })
 
-newSerach.searchVideo({
+/*newSerach.searchVideo({
     query: "BassJackers",
     maxResults: 1
 }, response => {
@@ -129,11 +135,11 @@ newSerach.searchVideoCategories({
     regionCode: "IN"
 }, response => {
     console.log(response.data.items);
-})*/
+})
 newSerach.commentThreads({
 
     videoId: 'GBUCmMxmup0'
 }, response => {
     console.log(response.data.items)
-})
+})*/
 module.exports = queryFunction
