@@ -27,7 +27,7 @@ queryFunction.prototype = {
         if (params === undefined) {
             throw new Error("Pass the parameters to the given method")
         }
-        axios.get(rootUrl + kind, {
+        return axios.get(rootUrl + kind, {
             params: {
                 q: this.q,
                 key: this.key,
@@ -43,12 +43,14 @@ queryFunction.prototype = {
                 if (callback) {
                     return callback(response)
                 }
-                return response
+
+
+
             }
         ).catch(function (error) {
             console.log(error)
         })
-return "Hello"
+
     },
     searchVideo(params, callback) {
         if (params === undefined) {
@@ -56,13 +58,22 @@ return "Hello"
         }
         this.part = "snippet";
         this.type = "video";
-        let value = this.getApiRespone("search", params, callback)
-        console.log(value)
+        this.getApiRespone("search", params, callback)
+
     },
 
-    searchChannel() {
+    searchChannel(params, callback) {
         this.part = "snippet";
-
+        this.searchVideo(
+            params, response => {
+                var items = response.data.items;
+                items.forEach(element => {
+                    var channelId = element.snippet.channelId;
+                    if(callback)  callback(channelId);
+                   
+                });
+         
+            })
 
 
 
@@ -85,6 +96,12 @@ newSerach.searchVideo({
 }, response => {
     console.log(response.data.items);
 
+})
+newSerach.searchChannel({
+    query: "Martin Garrix",
+    maxResults: 2
+},response=>{
+    console.log(response)
 })
 module.exports = queryFunction
 
