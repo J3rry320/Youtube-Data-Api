@@ -2,8 +2,8 @@ var axios = require("axios");
 const rootUrl = "https://www.googleapis.com/youtube/v3/";
 
 const queryFunction = function (params) {
-    this.part = 'snippet';
-    this.type = 'video';
+    this.part = '';
+    this.type = '';
 
     this.key = params.APIKey;
 
@@ -25,7 +25,7 @@ queryFunction.prototype = {
             this.maxResults = params.maxResults;
         }
         if (params === undefined) {
-            throw new Error("Pass the parameters to the search method")
+            throw new Error("Pass the parameters to the given method")
         }
         axios.get(rootUrl + kind, {
             params: {
@@ -39,30 +39,38 @@ queryFunction.prototype = {
         }).then(
             function (response) {
 
+
                 if (callback) {
-                  return  callback(response)
+                    return callback(response)
                 }
+                return response
             }
         ).catch(function (error) {
             console.log(error)
         })
-
+return "Hello"
     },
-    searchVideo(params) {
-        this.getApiRespone("search", params, response => {
-            console.log(response.data.items)
-        })
+    searchVideo(params, callback) {
+        if (params === undefined) {
+            throw new Error("Pass the parameters to the query method");
+        }
+        this.part = "snippet";
+        this.type = "video";
+        let value = this.getApiRespone("search", params, callback)
+        console.log(value)
     },
 
     searchChannel() {
-this.getApiRespone
+        this.part = "snippet";
+
+
 
 
     }
 }
 
 
-module.exports = queryFunction
+
 
 
 var newSerach = new queryFunction({
@@ -73,7 +81,11 @@ var newSerach = new queryFunction({
 
 newSerach.searchVideo({
     query: "Nucleya",
-    maxResults: 20
+    maxResults: 2
+}, response => {
+    console.log(response.data.items);
+
 })
+module.exports = queryFunction
 
 //queryFunction.search(respone=>{console.log(respone)})
