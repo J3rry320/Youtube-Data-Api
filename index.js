@@ -1,25 +1,39 @@
 var axios = require("axios");
 var searchUrl = "https://www.googleapis.com/youtube/v3/search";
 const queryFunction = function (params) {
-     const part= 'snippet';
-    const type= 'video'
-    
+    this.part = 'snippet';
+    this.type = 'video';
+
     this.key = params.APIKey;
 
-    this.q = params.query;
-    this.maxResults = params.maxResults;
-    var params=new Object;
-    params[q]=
-    console.log("Hello")
+    this.q = " ";
+    this.maxResults = 10;
+
+    console.log(this)
+
 
 
 }
 queryFunction.prototype = {
-    search: function (params, callback) {
-
+    search(params, callback) {
+        if (!this.key) {
+            throw new Error("No Key Provided! Provide an API key to make the function work")
+        }
+        if (params) {
+            this.q = params.query;
+            this.maxResults = params.maxResults;
+        }
+        if (params === undefined) {
+            throw new Error("Pass the parameters to the search method")
+        }
         axios.get(searchUrl, {
             params: {
-                
+                q: this.q,
+                key: this.key,
+                part: this.part,
+                type: this.type,
+                maxResults: this.maxResults,
+
             }
         }).then(
             function (response) {
@@ -33,7 +47,10 @@ queryFunction.prototype = {
 
     },
 
-    comments() {}
+    comments() {
+
+
+    }
 }
 
 
@@ -42,13 +59,15 @@ module.exports = queryFunction
 
 var newSerach = new queryFunction({
     APIKey: "AIzaSyASsTAnJAqiFiRTdC-TxjWQu6sjG0dwcZw",
-    query: 'Nucleya',
-    maxResults: 20
+
+
 });
 newSerach.search({
- 
-  
+    query: "Nucleya",
+    maxResults: 20
 }, function (response) {
     console.log(response)
+
 })
+
 //queryFunction.search(respone=>{console.log(respone)})
