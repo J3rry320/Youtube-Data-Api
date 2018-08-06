@@ -19,11 +19,8 @@ queryFunction.prototype = {
         if (params === undefined) {
             throw new Error("Pass the parameters to the given method")
         }
-        if (params) {
-            console.log(params)
-        }
 
-        return axios.get(rootUrl + kind, {
+        axios.get(rootUrl + kind, {
             params: params
         }).then(
             function (response) {
@@ -56,14 +53,13 @@ queryFunction.prototype = {
             maxResults: this.maxResults
         }, callback)
     },
-    commentThreads(){
-        this.getApiRespone("commentThreads",{
-            part: 'snippet,replies',
-                 videoId: 'GBUCmMxmup0',
-                 key:this.key
-        },response=>{
-            console.log(response.data.items)
-        })
+    commentThreads(params, callback) {
+        this.part = "snippet,replies"
+        this.getApiRespone("commentThreads", {
+            part: this.part,
+            videoId: params.videoId,
+            key: this.key
+        }, callback)
     },
     searchVideoCategories(params, callback) {
         this.part = "snippet"
@@ -73,63 +69,71 @@ queryFunction.prototype = {
         this.getApiRespone("videoCategories", {
             part: this.part,
             regionCode: this.regionCode,
-            key:this.key
+            key: this.key
 
         }, callback)
     },
-
     searchChannel(params, callback) {
         this.part = 'snippet';
+        //WIll be improved further
+        /* if (params) {
+             this.id = params.id;
 
-        if (params) {
-            this.id = params.id;
+         }
+         this.getApiRespone("channels", {
+             id: this.id,
+             part: this.part,
+             key: this.key
+         }, callback)*/
+        this.searchVideo({
+            params
+        }, response => {
+            var items = response.data.items;
+            items.forEach(element => {
+                var channelId = element.snippet.channelId;
+                this.getApiRespone("channels", {
+                    id: channelId,
+                    part: this.part,
+                    key: this.key
+                }, response => {
+                    if (callback) callback(response.data.items)
 
-        }
-        this.getApiRespone("channels", {
-            id: this.id,
-            part: this.part,
-            key:this.key
-        }, callback)
-        /* this.searchVideo(
-                params, response => {
-                    var items = response.data.items;
-                    items.forEach(element => {
-                        var channelId = element.snippet.channelId;
-                        // this.getApiRespone("channels",{id:[channelId]},callback)
+                })
 
-                    });
+            });
 
-                });*/
+        });
     }
 }
-
-
-
-
 
 var newSerach = new queryFunction({
     APIKey: "AIzaSyASsTAnJAqiFiRTdC-TxjWQu6sjG0dwcZw",
 });
 
 
-newSerach.searchChannel({
-    id:"UCZyXa4H06Ws3Pwom9cYEdDA"
-
+/*newSerach.searchChannel({
+    query: "BlasterJaxx",
+    maxResults: 1
 }, response => {
-    console.log(response.data.items)
+    console.log(response)
 })
 
-/*newSerach.searchVideo({
+newSerach.searchVideo({
     query: "BassJackers",
     maxResults: 1
 }, response => {
     console.log(response.data.items);
 
 })
-newSerach.searchVideoCategories({regionCode:"IN"},response=>{
+newSerach.searchVideoCategories({
+    regionCode: "IN"
+}, response => {
     console.log(response.data.items);
-})
-newSerach.commentThreads()*/
-module.exports = queryFunction
+})*/
+newSerach.commentThreads({
 
-//queryFunction.search(respone=>{console.log(respone)})
+    videoId: 'GBUCmMxmup0'
+}, response => {
+    console.log(response.data.items)
+})
+module.exports = queryFunction
