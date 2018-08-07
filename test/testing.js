@@ -1,13 +1,19 @@
-var queryFunction = require('../index')
+var queryFunction = require('../features/searchVideo')
 
-var newSerach = new queryFunction({
-    APIKey: "AIzaSyASsTAnJAqiFiRTdC-TxjWQu6sjG0dwcZw",
-});
+var newSerach = new queryFunction(
+ {
 
+        part: "snippet",
+        maxResults: 4,
+        q: "blasterjaxx",
+        type: "video",
+    },
+    callback=(response)=>{
+        console.log(response.data.items)
+    }
 
-newSerach.searchChannel({
-    query: "BlasterJaxx",
-    maxResults: 10
-}, response => {
-    console.log(response)
-})
+);
+
+newSerach.request()
+
+console.log(newSerach)
