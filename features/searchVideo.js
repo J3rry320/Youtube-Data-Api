@@ -1,25 +1,30 @@
-var getApiResponse = require('./getApiResponse')
+var getApiResponse = require('./getApiResponse');
 
+class searchVideo extends getApiResponse {
+    constructor(params, callback) {
 
-searchVideo = (params, callback) => {
-    global.part = "snippet";
-    global.type = "video";
-    if (params) {
-        global.q = params.query;
-        global.maxResults = params.maxResults;
+        super("search", {
+            key: params.key,
+            q: params.query,
+            maxResults: params.maxResponse
+
+        }, callback);
+
     }
-    if (params === undefined) {
-        throw new Error("Pass the parameters to the query method");
+    setParameters() {
+
+        const type = {
+            part: "snippet",
+            type: "video"
+        }
+        return {
+
+            ...this.searchParameters,
+            ...type
+        }
     }
 
-    getApiResponse("search", {
-        part: 'snippet',
-        key: global.key,
-        q: global.q,
-        type: global.type,
-
-        maxResults: global.maxResults
-    }, callback)
 }
 
-module.exports = searchVideo
+
+module.exports = searchVideo;

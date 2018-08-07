@@ -4,6 +4,7 @@ var searchVideo = require('./searchVideo')
 
 searchChannel = (params, callback) => {
     global.part = 'snippet';
+    global.type=null;
     //WIll be improved further
     /* if (params) {
         global.id = params.id;
@@ -15,10 +16,11 @@ searchChannel = (params, callback) => {
         key: global.key
      }, callback)*/
     searchVideo({
-        params
+      query:params.query,
+      maxResults:params.maxResults
     }, response => {
-        var items = response.data.items;
-        items.forEach(element => {
+
+        response.forEach(element => {
             var channelId = element.snippet.channelId;
             getApiResponse("channels", {
                 id: channelId,
