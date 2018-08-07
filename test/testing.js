@@ -1,19 +1,17 @@
 var queryFunction = require('../features/searchVideo')
+var init=require("../index");
+var newSerach = new queryFunction({
+        key: "AIzaSyASsTAnJAqiFiRTdC-TxjWQu6sjG0dwcZw",
+        maxResponse: 4,
+        query: "blasterjaxx",
 
-var newSerach = new queryFunction(
- {
-
-        part: "snippet",
-        maxResults: 4,
-        q: "blasterjaxx",
-        type: "video",
     },
-    callback=(response)=>{
+    callback = (response) => {
         console.log(response.data.items)
     }
 
 );
 
+
 newSerach.request()
 
-console.log(newSerach)
