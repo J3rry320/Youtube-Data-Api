@@ -1,10 +1,77 @@
 var getApiResponse = require('./getApiResponse')
 var searchVideo = require('./searchVideo')
+class SearchChannel extends getApiResponse {
+    constructor(params, callback) {
+        super("channels")
+        this.kind = "channels";
+        this.key = params.key;
+        this.q = params.query;
+        this.maxResults = params.maxResponse;
+        this.searchCallback = () => {
+            let search = new searchVideo({
+
+            }, response => {
+
+                response.forEach(element => {
+                    var channelId = element.snippet.channelId;
+
+                })
+            }).request();
+            return search
+        }
 
 
-searchChannel = (params, callback) => {
-    global.part = 'snippet';
-    global.type=null;
+
+    }
+    searchResponse() {
+        console.log(this.searchCallback())
+
+    }
+    setParameters() {
+        const type = {
+            part: "snippet"
+        };
+        return {
+            ...this.searchParameters,
+            ...type
+        }
+    }
+    searchChannel(callback) {
+
+
+
+        new searchVideo(this.searchParameters, response => {
+
+            response.forEach(element => {
+                var channelId = element.snippet.channelId;
+
+                new getApiResponse("channels", {
+                    id: channelId,
+                    part: global.part,
+                    key: global.key
+                }, response => {
+                    if (callback) callback(response)
+
+                }).request().setParameters()
+
+            });
+
+        });
+    }
+}
+
+
+searchChannelDeprecated = (params, callback) => {
+    let search = new searchVideo({
+        query: this.q,
+        key: this.key,
+        maxResponse: this.maxResults
+    });
+    let response = new getApiResponse()
+
+search.request()
+
+
     //WIll be improved further
     /* if (params) {
         global.id = params.id;
@@ -15,25 +82,7 @@ searchChannel = (params, callback) => {
         part: global.part,
         key: global.key
      }, callback)*/
-    searchVideo({
-      query:params.query,
-      maxResults:params.maxResults
-    }, response => {
 
-        response.forEach(element => {
-            var channelId = element.snippet.channelId;
-            getApiResponse("channels", {
-                id: channelId,
-                part: global.part,
-                key: global.key
-            }, response => {
-                if (callback) callback(response.data.items)
-
-            })
-
-        });
-
-    });
 }
 
-module.exports = searchChannel
+module.exports = SearchChannel

@@ -11,6 +11,7 @@ class searchVideo extends getApiResponse {
         }, callback);
 
     }
+
     setParameters() {
 
         const type = {

@@ -9,42 +9,42 @@ class getApiResponse {
         this.callback = callback;
 
     }
-
-
-
-
-
-
-    //Validate the class
+        //Validate the class
     validate() {
         if (!this.searchParameters) throw new Error("No parameters provided");
         if (!this.searchParameters.key) throw new Error("No Key Provided! Provide an API key");
     }
     setParameters(parameters) {
-        var type = {
+       let type = {
 
             part: parameters.part || null,
             type: parameters.type || null
         }
+        return {
 
+            ...this.searchParameters,
+            ...type
+        }
 
     }
     //request the class for data
     request() {
 
         let callback = this.callback;
+
         axios.get(rootUrl + this.kind, {
             params: this.setParameters(),
 
         }).then(
             function (response) {
                 if (callback) {
-                    callback(response)
+                  return  callback(response.data.items)
                 }
             }
         ).catch(function (error) {
             console.log(error)
         })
+        return this
     }
 
 }
