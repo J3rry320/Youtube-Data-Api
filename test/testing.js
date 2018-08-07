@@ -16,7 +16,7 @@ serach.request()
 
 
 //tis Does Not
-var newSerach = new queryFunction({
+/*var newSerach = new queryFunction({
         key: "AIzaSyASsTAnJAqiFiRTdC-TxjWQu6sjG0dwcZw",
         maxResponse: 4,
         query: "blasterjaxx",
@@ -28,4 +28,4 @@ var newSerach = new queryFunction({
 );
 
 
-newSerach.searchResponse()
+newSerach.searchResponse()*/
